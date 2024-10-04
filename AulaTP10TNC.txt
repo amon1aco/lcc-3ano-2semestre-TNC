@@ -1,0 +1,88 @@
+# Aula TP 10 TNC
+
+
+sage: # Exc 2 - Teste 23    -------------
+sage: n = 13603
+sage: Zn = IntegerModRing(n)
+sage: x0 = Zn(3)
+sage: f = lambda x: x^2+1
+sage: x1 = f(x0)
+sage: x1
+10
+sage: x2 = f(x1)
+sage: x2
+101
+sage: x3 = f(x2)
+sage: x3
+10202
+sage: gcd(x2-x1,n)
+1
+sage: x4 = f(x3)
+sage: x4
+4252
+sage: gcd(x4-x2,n)
+1
+sage: x5 = f(x4)
+sage: x6 = f(x5)
+sage: gcd(x6-x3,n)
+1
+sage: x7 = f(x6)
+sage: x8 = f(x7)
+sage: gcd(x8-x4,n)
+1
+sage: x9 = f(x8)
+sage: x10 = f(x9)
+sage: gcd(x10 - x5,n)
+223
+
+
+
+sage: # Exc 4 - Exame 2022		----
+sage: # com outros valores
+sage: p = next_prime(10^10)
+sage: p
+10000000019
+sage: r = primitive_root(p)
+sage: r
+2
+sage: Zp = IntegerModRing(p)
+sage: r = Zp(r)
+sage: multiplicative_order(r) == p-1
+True
+sage: a = 10000025
+sage: b = r^a
+sage: b
+609792900
+sage: discrete_log(b,r)
+10000025
+sage: pub_key = p,r,b
+sage: pub_key
+(10000000019, 2, 609792900)
+sage: mens = 1234
+sage: k = 54321
+sage: gama = r^k
+sage: delta = mens * b ^ k
+sage: gama,delta
+(3414273262, 5217540757)
+sage:
+sage: # decifrar
+sage: 1/gama^a*delta
+1234
+
+
+
+
+sage: # Exc 1 - Exame 2022      -----------
+sage: (n,e) = (120154049,32767)
+sage: p = 10007
+sage: q = n//p
+sage: m = (p-1)*(q-1)
+sage: m
+120132036
+sage: d = power_mod(e,-1,m)
+sage: y = 1221249
+sage: power_mod(y,d,n)
+4321
+sage:
+
+

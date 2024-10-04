@@ -1,0 +1,86 @@
+# Aula TP5 TNC
+
+sage: n = 17*31
+sage: Zn = IntegerModRing(n)
+sage: r = Zn(2) # r1 = 2
+sage: gcd(r-1,n) == 1
+True
+sage: r = r^2
+sage: r
+4
+sage: gcd(r-1,n)
+1
+sage: r = r^3
+sage: gcd(r-1,n)
+1
+sage: r = r^4 # r4=r3^4
+sage: gdc(r-1,n)
+17
+
+
+# Exc 14
+sage: def p_menos1_pollard(n):
+....:     r = 2
+....:     i = 2
+....:     while gcd(r-1,n) == 1:
+....:         r = r ** i
+....:         i += 1
+....:     return gcd(r-1,n)
+....:
+....:
+sage: p_menos1_pollard(17*31)
+17
+
+# Exc 13g
+sage: n = 98712139726389721
+sage: p_menos1_pollard(n)
+7
+
+
+# Exc 23 a)
+sage: n = 483
+sage: (n-1) // 2
+241
+sage: (n-1) / 2
+241
+sage: s,t = 1,241
+sage: 2^s*t + 1
+483
+
+sage: # 2^t = 1 mod n?
+sage: power_mod(2,t,n)
+380
+sage: # nop
+sage: # 2^(2^j *t) = -1 mod n
+sage: power_mod(2,t,n) == n-1
+False
+sage: # se um numero não passar o teste de miller para alguma base então é obrigatóriamente composto
+
+##### Resultados diferentes do stor  
+sage: Zn = IntegerModRing(n)
+sage: b = Zn(2)
+sage: s,t = 5,3
+sage: n = 97
+sage: 2^s*t + 1 == n
+True
+sage: b^(n-1)
+463
+
+
+--
+sage: # 341 é pseudo primo fraco na base 2
+sage: n = 341
+sage: power_mod(2,n-1,n)
+1
+sage: is_prime(n)
+False
+sage: (n-1)//2^2
+85
+sage: s,t = 2,85
+sage: 2^s*t + 1 == n
+True
+sage: power_mod(2,170,n)
+1
+sage: power_mod(2,85,n)
+32
+sage: # então n é composto, caso seja 1 ou -1 quer dizer que passa o teste de miller e não se pode concluir nada

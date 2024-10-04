@@ -1,0 +1,52 @@
+Aula4TP TNC
+
+sage: def rho_Pollard(n, f = lambda x : x^2+1, x0 = 2):
+....:     Zn = IntegerModRing(n)
+....:     x = f(f(Zn(x0)))
+....:     y = f(x0)
+....:     while gcd(x-y,n) == 1:
+....:         y = f(y)
+....:         x = f(f(x))
+....:     return gcd(x-y,n)
+....:
+sage:
+sage: rho_Pollard(1189, lambda x : x^2+1,2)
+41
+
+
+Exc 15:
+sage: def primo_wilson(n):
+....:     return is_prime(n) and ((factorial(n-1) + 1) / n) % n == 0
+....:
+sage: primo_wilson(6)
+False
+sage: primo_wilson(7)
+False
+sage: primo_wilson(5)
+True
+sage: primo_wilson(11)
+False
+
+sage: [k for k in prime_range(1,10^3) if primo_wilson(k)]
+[5, 13, 563]
+sage: [k for k in prime_range(1,10^4) if primo_wilson(k)]
+[5, 13, 563]
+sage: [k for k in prime_range(1,10^5) if primo_wilson(k)]
+(...) bué de tempo
+
+Solução do stor:
+sage: def primo_wilson(n):
+....:     return is_prime(n) and mod_fact(n-1,n^2) == n^2-1
+....:
+....:
+sage: def mod_fact(k,n):
+....:     # função que calcula k! mod n
+....:     Zn = IntegerModRing(n)
+....:     resultado = Zn(1)
+....:     for i in range(1,k+1):
+....:         resultado = resultado * i
+....:     return ZZ(resultado)
+
+
+----//---- 2ª aula
+

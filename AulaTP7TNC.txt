@@ -1,0 +1,141 @@
+# Aula 7 TP TNC
+
+sage: # Ficha 4 Exc 7
+sage: euler_phi(100)
+40
+sage: euler_phi(256)
+128
+sage: factor(1001)
+7 * 11 * 13
+sage: 6*10*12
+720
+sage: euler_phi(1001)
+720
+
+sage: # 12! = 2^10 * 3^4 * 5^2 * 7 * 11
+sage: # fi(12!) = (2^10 - 2^9)*(3^5 - 3^4)*(5^2 - 5)* 6 * 10
+sage: (2^10 - 2^9)*(3^5 - 3^4)*(5^2 - 5)* 6 * 10
+99532800
+sage: euler_phi(factorial(12))
+99532800
+
+----//----
+sage: # RSA
+sage: p = 97
+sage: q = 311
+sage: n = p*q
+sage: m = (p-1)*(q-1)
+sage: e = 7
+sage: gcd(e,m) == 1
+True
+sage: # "e" pertence a um s.r.r. mod m
+sage: d = power_mod(e,-1,m)
+sage: ch_pub = (n,e)
+sage: ch_priv = d
+sage: ch_pub
+(30167, 7)
+sage: # O Eduardo vai enviar-me o cvv do cc dele, é 123
+sage: cifr = power_mod(123,e,n)
+sage: cifr
+5797
+sage: decifr = power_mod(5797,d,n)
+sage: decifr
+123
+sage: # conjetura: quebrar o RSA é equivalente a n!
+----//----
+
+# Exc 17
+
+# a)
+sage: (n, e) = (9342391600471856881, 516835009790341993)
+sage: y = 1487195269633179588
+sage: p = factor(n)[0][0]
+sage: q = factor(n)[1][0]
+sage: m = (p-1)*(q-1)
+sage: d = power_mod(e,-1,m)
+sage: power_mod(y,d,n)
+797665
+
+# b)
+sage: (n, e) =(67633672784217556353366096258421764696324549077666031968154875840038293222841,2261982797471456753)
+sage:  y = 1487195269633179588
+sage: p = factor(n)[0][0]
+^C
+sage: # Limite de tempo
+
+
+# Assinatura de mensagem:
+sage: p,q = 31,37
+sage: n = p*q
+sage: m = (p-1)*(q-1)
+sage: e = 3
+sage: while gcd(e,m) != 1:
+....:     e = randint(2,m-1)
+....:
+sage: d = power_mod(e,-1,m)
+sage: pub = (n,e)
+sage: priv = d
+sage: pub
+(1147, 283)
+sage: # assinatura de mensagem
+sage: assin = power_mod(123,priv,n)
+sage: assin,123
+(712, 123)
+sage: val = power_mod(assin,283,n)
+sage: val
+123
+sage:
+
+-----
+
+sage: # fatorizar n sabendo phi(n)
+sage: p,q = 31,37
+sage: n = p*q
+sage: m = (p-1)*(q-1)
+sage: n,m
+(1147, 1080)
+sage: p_mais_q = n-m+1
+sage: p_mais_q
+68
+sage: p_menos_q = sqrt(p_mais_q^2-4*n)
+sage: p_menos_q
+6
+sage: 1/2*(p_mais_q+p_menos_q),1/2*(p_mais_q-p_menos_q)
+(37, 31)
+sage:
+
+-- 
+# Ataque ciclico:
+
+#
+sage: p = 31
+sage: q = 37
+sage: n = p*q
+sage: m = (p-1)*(q-1)
+sage: e = 7
+sage: gcd(e,m)==1
+True
+sage: n,e
+(1147, 7)
+sage: d = power_mod(e,-1,m)
+sage: mens = 123
+sage: cifr = power_mod(mens,e,n)
+sage: cifr
+712
+sage: Zn = IntegerModRing(n)
+sage: mens = Zn(mens)
+sage: cifr = mens^e
+sage: j = 1
+sage: Cj = cifr^e
+sage: while Cj != cifr:
+....:     j = j+1
+....:     Cj = Cj^e
+....:
+sage: j
+3
+sage: cifr^(e^3),cifr
+(712, 712)
+sage: cifr^(e^2)
+123
+sage: mens
+123

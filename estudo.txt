@@ -1,0 +1,180 @@
+# Trabalho em casa
+
+########################################################################################
+# Ficha 1:
+Exc 2
+sage: def primos_gemeos(n):
+....:     ret = []
+....:     i = 3
+....:     while i < n:
+....:         if is_prime(i) and is_prime(i+2):
+....:             ret.append((i,i+2))
+....:         i+=1
+....:     return ret
+....:
+sage: primos_gemeos(100)
+[(3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43), (59, 61), (71, 73)]
+
+
+# Exc 4
+def crivo(n):
+....:     ret = [2..n]
+....:     for i in range(2,n):
+....:         if i in ret:
+....:             for j in range(i * i, n + 1, i):
+....:                 if j in ret:
+....:                     ret.remove(j)
+....:     return ret
+sage: crivo(100)
+[2,
+ 3,
+ 5,
+ 7,
+.. (cortei a resposta)
+ 97]
+
+
+# Exc 8
+sage: def wieferich(n):
+....:     ret = []
+....:     for i in range(1,n):
+....:         if power_mod(2,i-1,i^2) == 1:
+....:             ret.append(i)
+....:     return ret
+....:
+sage: wieferich(100000)
+[1093, 3511]
+
+
+# Exc 18
+sage: def f_lucas(n):
+....:     if n == 1:
+....:         return 1
+....:     if n == 2:
+....:         return 3
+....:     return f_lucas(n-1) + f_lucas(n-2)
+....:
+sage: f_lucas(2)
+3
+sage: f_lucas(3)
+4
+sage: f_lucas(10)
+123
+
+
+########################################################################################
+
+# Ficha 2
+
+# Exc 15 b)
+sage: x0 = 3
+sage: x = x0
+sage: y = x0
+sage: def f(n):
+....:     return n^2 + 1
+....:
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+1
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+1
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+1
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+1
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+1
+sage: x = f(x)
+sage: y = f(f(y))
+sage: gcd(abs(x-y),n)
+73
+sage: 1387/73
+19
+
+
+########################################################################################
+
+# Ficha 4
+
+# Teorema de Euler: se (a,n) == 1 então a^fi(n) [mod n] == 1
+
+
+########################################################################################
+
+# Ficha 5
+
+# Exc 14
+sage: (p, r, b) = (2551, 6, 33)
+sage: mens = 133
+sage:
+sage: Zp = IntegerModRing(p)
+sage: r = Zp(r)
+sage: r
+6
+sage: b = Zp(b)
+sage: b
+33
+sage: # cifrar
+sage: k = randint(2,p-2)
+sage: gcd(k,p)
+1
+sage: k
+486
+sage: c1 = r^k
+sage: c2 = mens * b^k
+sage: chpub = (c1,c2)
+sage: chpub
+(1000, 2352)
+sage:
+sage: # decifrar
+sage: a = 13
+sage: g,d = (421, 95)
+sage:
+sage: 1/Zp(g)^a * d
+133
+
+
+# Exc 2
+a)
+sage: [3^k for k in range(1,10)]
+[3, 9, 27, 81, 243, 729, 2187, 6561, 19683]
+sage: 243%11
+1
+
+b)
+sage: l = [2^k for k in range(1,10)]
+sage: l
+[2, 4, 8, 16, 32, 64, 128, 256, 512]
+sage: ret = []
+sage: for val in l:
+....:     ret.append(val%17)
+....:
+sage: ret
+[2, 4, 8, 16, 15, 13, 9, 1, 2]
+sage:
+
+
+# Exc 10 
+a)
+sage: [5^k for k in range(1,6)]
+[5, 25, 125, 625, 3125]
+sage: l = [5^k for k in range(1,6)]
+sage: ret = []
+sage: for val in l:
+....:     ret.append(val % 7)
+....:
+sage: ret
+[5, 4, 6, 2, 3]
+sage:
+
+
+

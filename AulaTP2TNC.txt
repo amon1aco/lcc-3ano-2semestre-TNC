@@ -1,0 +1,73 @@
+sage: n = 98
+sage: p1 = 3
+sage: p2 = n - p1
+sage: while not is_prime(p2):
+....:     p1 = next_prime(p1)
+....:     p2 = n - p1
+....: print(n, " = ", p1, " + ", p2)
+98  =  19  +  79
+
+Exc 3:
+sage: def Goldbach(n):
+....:     p1 = 3
+....:     p2 = n - p1
+....:     while not is_prime(p2):
+....:         p1 = next_prime(p1)
+....:         p2 = n - p1
+....:     print(n, " = ", p1, " + ", p2)
+....:     return (p1,p2)
+
+--
+sage: upbound = floor(sqrt(n))
+sage: n = 113
+sage: upbound = floor(sqrt(n))
+sage: upbound
+10
+sage: primos = [p for p in range(1, upbound+1) if is_prime(p)]
+sage: primos
+[2, 3, 5, 7]
+
+sage: e_primo = True
+....: for k in primos:
+....:     if n % k == 0:
+....:         print(k, " divide ", n)
+....:         e_primo = False
+....:         break
+....: print("O valor é primo: ", e_primo)
+O valor é primo:  True
+sage:
+
+
+Exc 10:
+sage: mens="ABCDEFGHIJKLMNOPQRSTUVWXYZ"; L=list(map(ord, mens))
+....: [L[k-1]-65 for k in [1..len(L)]]
+....: [str(chr(L[k-1])) for k in [1..len(L)]]
+[0,
+ .. (Cortei a resposta)
+ 25]
+['A',
+ .. (Cortei a resposta)
+ 'Z']
+sage: ord("O")
+79
+sage: ord("O")-65
+14
+sage: mensagem = "OLAZ"
+sage: L = list(map(ord,mensagem))
+sage: MENS = [L[k-1]-65 for k in [1..len(L)]]
+sage: MENS
+[14, 11, 0, 25]
+sage: key = 3
+sage: CRIPTO = [ZZ(mod(m+key,26)) for m in MENS]
+sage: CRIPTO
+[17, 14, 3, 2]
+sage: CRIPTO
+[17, 14, 3, 2]
+sage: resp = [str(chr(CRIPTO[k-1]+65)) for k in [1..len(CRIPTO)]]
+sage: resp
+['R', 'O', 'D', 'C']
+sage:
+
+
+
+

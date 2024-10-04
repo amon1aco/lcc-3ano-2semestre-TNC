@@ -1,0 +1,128 @@
+# Aula TP 9 TNC
+
+sage: # Teorema:
+sage: # n tem raiz primitiva se e só se n = 2,4,p^k,2*p^k para algum número ímpar p.
+sage: n = 30
+sage: Zn = IntegerModRing(n)
+sage: srr = [a for a in Zn if gcd(a,n) == 1]
+sage: srr
+[1, 7, 11, 13, 17, 19, 23, 29]
+sage: len(srr) == euler_phi(n)
+True
+sage: # srr é grupo finito abeliano
+sage: g = srr[1]
+sage: g
+7
+sage: g^8
+1
+sage: [g^i for i in range(1,9)]
+[7, 19, 13, 1, 7, 19, 13, 1]
+sage: # grupo ciclico muito pequeno, não é ideal para El Gamal
+
+
+
+sage: n = 50
+sage: Zn = IntegerModRing(n)
+sage: srr = [a for a in Zn if gcd(a,n) == 1]
+sage: srr
+[1, 3, 7, 9, 11, 13, 17, 19, 21, 23, 27, 29, 31, 33, 37, 39, 41, 43, 47, 49]
+sage: len(srr)
+20
+sage: g = srr[1]
+sage: g
+3
+sage: divisores = divisors(20)
+sage: divisores
+[1, 2, 4, 5, 10, 20]
+sage: [g^k for k in divisores]
+[3, 9, 31, 43, 49, 1]
+sage: [Zn(7)^k for k in divisores]
+[7, 49, 1, 7, 49, 1]
+sage: [Zn(7)^i for i in range(1,21)]
+[7, 49, 43, 1, 7, 49, 43, 1, 7, 49, 43, 1, 7, 49, 43, 1, 7, 49, 43, 1]
+sage: [Zn(3)^i for i in range(1,21)]
+[3, 9, 27, 31, 43, 29, 37, 11, 33, 49, 47, 41, 23, 19, 7, 21, 13, 39, 17, 1]
+sage: srr
+[1, 3, 7, 9, 11, 13, 17, 19, 21, 23, 27, 29, 31, 33, 37, 39, 41, 43, 47, 49]
+sage: sorted([Zn(3)^i for i in range(1,21)]) == srr
+True
+
+
+sage: # ind "x" "n" "mod k" -> quantas vezes tenho que multiplicar "x" para chegar a "n" "mod k"
+
+
+
+sage: p = 17
+sage: Zp = IntegerModRing(p)
+sage: srr = [a for a in Zp if gcd(a,p) == 1]
+sage: srr
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+sage: Zp
+Ring of integers modulo 17
+sage: [b for b in Zp]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+sage: g = Zp(2)
+sage: g^2,g^4,g^8
+(4, 16, 1)
+sage: [g^i for i in range(1,17)]
+[2, 4, 8, 16, 15, 13, 9, 1, 2, 4, 8, 16, 15, 13, 9, 1]
+sage: g = Zp(3)
+sage: g^2,g^4,g^8
+(9, 13, 16)
+sage: g^16
+1
+sage: multiplicative_order(Zp(11))
+16
+sage: primitive_root(p)
+3
+
+
+
+sage: # ElGamal
+sage:
+sage: p = 37
+sage: r = primitive_root(p)
+sage: Zp = IntegerModRing(p)
+sage: r = Zp(r)
+sage: r
+2
+sage: a = 20
+sage: b = r^a
+sage: b
+33
+sage: CbPub = (p,r,b)
+sage: CbPub
+(37, 2, 33)
+sage: mens = 12
+sage: k = 20
+sage: gama = r^k
+sage: delta = mens*b^k
+sage: gama,delta
+(33, 7)
+sage: # decifração
+sage: 1/gama^a * delta
+12
+sage: 1/gama^a * delta == mens
+True
+
+
+
+sage: # Exc 15
+sage:  (p, r, b) = (370113067, 3, 161485623)
+sage: mens = 138616298
+sage:
+sage: Zp = IntegerModRing(p)
+sage: r = Zp(r)
+sage: b = Zp(b)
+sage: # Cifrar
+sage: k = randint(2,p-2)
+sage: gama, delta = r^k, mens*b^k
+sage: gama,delta
+(311707560, 99352293)
+
+sage: # decifrar
+sage: gg,dd =  (267037772, 234691095)
+sage: a =  164943214
+sage: 1/Zp(gg) ^a * dd
+138616298
+sage:

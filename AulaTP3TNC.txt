@@ -1,0 +1,69 @@
+# Aula TP 03 - TNC
+
+# Exc 1 i)
+sage: n = 46009
+sage: s = ceil(sqrt(n))
+sage: s
+215
+sage: x = s^2 - n
+sage: x
+216
+sage: x.is_square()
+False
+sage: while not x.is_square():
+....:     s = s+1
+....:     x = s^2-n
+....: print("s = ",s," x = ",x)
+s =  235  x =  9216
+sage: t = sqrt(x)
+sage: t
+96
+sage: a = s-t
+sage: b = s+t
+sage: a,b,a*b == n
+(139, 331, True)
+
+
+# Exc 2
+sage: def fact_fermat(n):
+....:     s = ceil(sqrt(n))
+....:     x = s^2 - n
+....:     while not x.is_square():
+....:         s = s+1
+....:         x = s^2-n
+....:     t = sqrt(x)
+....:     a,b = s-t, s+t
+....:     return a,b
+....:
+sage: fact_fermat(11*31)
+(11, 31)
+
+
+# Exc 10 a)
+sage: a, b = 323, 1261
+sage: n1 = 100
+sage: n2 = 99
+sage: mod(a,n1), mod(a,n2)
+(23, 26)
+sage: x = crt(17,80,n1,n2)
+sage: x
+6317
+sage: crt(40,7,n1,n2)
+6640
+(?????)
+
+# Exc 10 b)
+sage: a, b = 123655, 410231
+sage: n3 = 97
+sage: a1, a2, a3 = mod(a, n1), mod(a, n2), mod(a, n3)
+....: b1, b2, b3 = mod(b, n1), mod(b, n2), mod(b, n3)
+sage: s1 = a1+b1
+....: s2 = a2+b2
+....: s3 = a3+b3
+....: s1, s2, s3
+(86, 78, 95)
+sage: crt((crt(ZZ(s1), ZZ(s2), n1, n2)), ZZ(s3), n1*n2, n3)
+533886
+sage: a+b
+533886
+

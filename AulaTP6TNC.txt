@@ -1,0 +1,142 @@
+# Aula nº6 TNC TP
+
+sage: n = 20
+sage: Zn = IntegerModRing(n)
+sage: Zn
+Ring of integers modulo 20
+sage: Zn.list()
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+sage: srr = [s for s in Zn if gcd(s,n) == 1]
+sage: srr
+[1, 3, 7, 9, 11, 13, 17, 19]
+sage: len(srr)
+8
+sage: euler_phi(n)
+8
+
+
+
+sage: scr = [j for j in range(-10,10)]
+sage: scr
+[-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+sage: srr2 = [k for k in scr if gcd(k,n) == 1]
+sage: srr2
+[-9, -7, -3, -1, 1, 3, 7, 9]
+
+
+
+sage: # Teorema de Euler: se (a,n) == 1 então a^fi(n) [mod n] == 1
+sage: a = Zn(3)
+sage: a^8
+1
+
+
+
+sage: # RSA
+sage: # - Criação da chave
+sage: #
+sage: # p,q primos, n = p*q
+sage: # m = fi(n) = (p-1) * (q-1)
+sage:
+sage: p = next_prime(2^32)
+sage: q = previous_prime(2^32)
+sage: n = p*q
+sage: n
+18446744116659224501
+sage: m = (p-1) * (q-1)  # Não fazer euler_phi(n) !!!
+sage: m
+18446744108069289900
+
+
+
+sage: # Seja "e" pertencente a ZZm e (e,m) = 1
+sage: Zn = IntegerModRing(n)
+sage: Zm = IntegerModRing(m)
+sage: e = Zm(7)
+sage: gcd(e,m) == 1
+True
+sage: d = e^(-1)
+sage: d
+2635249158295612843
+sage: # A chave publica é (n,e)
+sage: # Seja "d" o inverso de "e" modulo "m"
+sage: # A chave privada é "d"
+sage: n, e
+(18446744116659224501, 7)
+sage: mens = 1234
+sage: # c [mod n] = mens^e
+sage: cripto = Zn(mens)^e
+sage: cripto
+3754572489805222308
+
+
+
+sage: dec = Zn(cripto)^d
+sage: dec
+1234
+
+sage: p = next_prime(2^16)
+sage: q = random_prime(2^16, lbound = 2^15)
+sage: p,q
+(65537, 65447)
+sage: n = p*q
+sage: m = (p-1) * (q-1)
+sage: n,m
+(4289200039, 4289069056)
+sage: e = 3
+sage: gcd(e,m)
+1
+sage: PubKey = (n,e)
+sage: d = power_mod(e,-1,m)
+sage: d
+2859379371
+sage: mens = 1234
+sage: cifr = power_mod(mens,e,n)
+sage: cifr
+1879080904
+sage: decifr = power_mod(cifr,d,n)
+sage: decifr
+1234
+
+
+
+sage: def geraChave(nbits = 1024):
+....:     p = random_prime(2^(nbits//2), lbound = 2^(nbits//2 - 1))
+....:     q = random_prime(2^(nbits//2 + 1), lbound = 2^(nbits//2))
+....:     n = p*q
+....:     m = (p-1)*(q-1)
+....:     e = randint(2,m-1)
+....:     while gcd(e,m) != 1:
+....:         e = randint(2,m)
+....:     d = power_mod(e,-1,m)
+....:     pub_key = (n,e)
+....:     priv_key = (n,d)
+....:     return pub_key, priv_key
+....:
+....:
+sage: chave_pub, chave_priv = geraChave()
+sage: chave_pub
+(201643168478483677299759393134746516288052754426772836151108377849441225433050905007468586506927431046456494828723981188012792604171483923455843703579802894862691232261793691920372304060565226522079490497129631294969017914468348330176550303301181470815577484368281660367131627168757064526413790559142129017523,
+ 10973362791562350439646561722288158996710493595264712723372844697264602676050876639113055668809307173291185379682047383975319116713073720231041019166165857498216436938010958431119222954609644688752886373043959190745565175407040607538837782149320725992156260922297017886093698070858271047009593413525143465761)
+sage: chave_priv
+(201643168478483677299759393134746516288052754426772836151108377849441225433050905007468586506927431046456494828723981188012792604171483923455843703579802894862691232261793691920372304060565226522079490497129631294969017914468348330176550303301181470815577484368281660367131627168757064526413790559142129017523,
+ 81292903194918279285304726721529741678701744881163316229205991316320341750454341750637001311324089233893555065839691897630893314305442580332578638146281372333021693637289754379135079748739236361921637525467421544453538146526200338301141802987926732975305247857689463136671120133894745802023013516141700133241)
+
+
+sage: def cifrar(mens, ch_pub):
+....:     n,e = ch_pub
+....:     return power_mod(mens,e,n)
+....:
+sage: def decifrar(cripto, ch_priv):
+....:     n,d = ch_priv
+....:     return power_mod(cripto,d,n)
+....:
+sage: mens = 1234
+sage: cif = cifrar(mens,chave_pub)
+sage: cif
+114930678032949987805809865909092146448777095421434038259886630436549642213996676206945458774894916515882927096854521465973889946841348129184650701517410605343642493704603748473810880901222091482714176778029109523464598003651789598481175946659021714154679531306289921667132283371406248227646473679757421130525
+sage: decifrar(cif,chave_priv)
+1234
+sage:
+
+
